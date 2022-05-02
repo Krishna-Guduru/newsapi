@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search results</title>
+    <style>
+      #navbar{
+        display: flex;
+        align-content: space-between;
+      }
+      h3{
+        font-size: 30px;
+
+      }
+      input{
+        width: 1000px;
+        height: 40px;
+        border-radius: 10px;
+      }
+      #container{
+        display: flex;
+      }
+      button{
+        width: 100px;
+        height: 50px;
+        background-color: aqua;
+      }
+      #sidebar{
+        width: auto;
+      }
+    </style>
+
+  </head>
+  <body>
+    <!-- Same navbar with same functionality  -->
+    <div id="navbar">
+      <h3>News App</h3>
+      <input id="search_input" text="type" oninput="search()">
+    <!-- <div class=""></div> -->
+    </div>
+    <!-- Append results inside div with id "results"  -->
+    <div id="results"></div>
+    <!-- News divs will have class "news"  -->
+  </body>
+</html>
+<!-- <script type="module" src="./scripts/search.js"></script> -->
+ <script>
+// var arr=  JSON.parse(localStorage.getItem("search_input"))
+// var div=div .createElement("div") 
+  var data=""
+  async function search(){
+    try{
+      var data1=localStorage.getItem("newsdata")
+
+    //  data=document.getElementById("search_input").value
+let res=await fetch(`https://masai-mock-api.herokuapp.com/news?q=${data1}`)
+data=await res.json()
+console.log("data:",data)
+
+append(data)
+    }
+    catch(err){
+console.log(err)
+    }
+}
+search()
+// function appenddata=(data)=>{
+  function append(data){
+    console.log(data.articles)
+    data.articles.forEach((el)=>{
+    let div=document.createElement("div")
+  div.setAttribute="class","news"
+  div.addEventListener("click",function(){
+    localStorage.setItem("news",JSON.stringify(data))
+    window.Location.href="news.html"
+        })
+
+  let img=document.createElement("img")
+  img.src=el.urlToImage
+  // console.log(img)
+  let title=document.createElement("h3")
+  title.innerText=el.title
+  // console.log(title)
+
+  let contnet=document.createElement("p")
+  contnet.innerText=el.content
+div.append(img,title,contnet)
+document.getElementById("results").append(div)
+    });
+}
+
+// var arr=[]
+// function news(data){
+//     list.push(data)
+//  console.log(data)
+
+// }
+</script>

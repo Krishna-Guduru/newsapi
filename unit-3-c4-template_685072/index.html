@@ -1,0 +1,111 @@
+<!-- 1. The navbar will have an id as “navbar”.
+2. The navbar will have only two component link to home page and input box. No search button should be present. 
+2. The search box will have an id as “search_input”.
+3. The sidebar will have an id as “sidebar”
+4. The following country links will be present on sidebar with given ids:-
+- India :- “in”
+- Usa :- “us”
+- China :- “ch”
+- UK :- “uk”
+- New Zealand :- “nz”
+5. The search results will be appended inside the div with id as “results” on both index and search page.
+6. The news divs will have class as “news”.
+7. Store the news which the user clicks to see in localstorage with key “news” to access on news.html page.
+8. The detailed news will be appended inside the div with id as “detailed_news”.
+9. Use H3 for title and p tag for description and content everywhere.  -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News App</title>
+    <style>
+      #navbar{
+        display: flex;
+        align-content: space-between;
+      }
+      h3{
+        font-size: 30px;
+
+      }
+      input{
+        width: 1000px;
+        height: 40px;
+        border-radius: 10px;
+      }
+      #container{
+        display: flex;
+      }
+      button{
+        width: 100px;
+        height: 50px;
+        background-color: aqua;
+      }
+      #sidebar{
+        width: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Give Navbar with id "navbar"  -->
+    <!-- Navbar will have input with id search_input and a link to home page i.e. index.html -->
+<div id="navbar">
+  <h3>News App</h3>
+  <!-- <a href="search.html"> -->
+  <input id="search_input" text="type" placeholder="text">
+</div>
+<div id="container">
+  <div id="sidebar">
+    <button id="in" onclick="country"> india</button>
+    <button id="ch" onclick="country">china</button>
+    <button id="us" onclick="country">usa</button>
+    <button id="uk" onclick="country"> uk</button>
+    <button id="nz" onclick="country">Newzeland</button>
+  </div>
+  <div id="results">
+    <div class="news"></div>
+  </div>
+</div>
+    
+    <!-- Sidebar will have id "sidebar"  -->
+    <!-- Give link to top headlines of countries in sidebar with id as their country codes 
+    india :- in
+    china :- ch
+    usa :- us
+    uk : uk
+    Newzeland :- nz -->
+
+    <!-- Append results inside div with id "results"  -->
+    <!-- News divs will have class "news"  -->
+  </body>
+</html>
+<script>
+  // https://masai-mock-api.herokuapp.com/news/top-headlines?india="in"
+  async function country(){
+    try{
+    let country=document.getElementById("search_input").value
+let res=await fetch(`https://masai-mock-api.herokuapp.com/news/top-headlines?country=${country_code}`)
+
+ var data=await res.json()
+
+// console.log("data:",data)
+
+append(data)
+    }
+    catch(err){
+console.log(err)
+    }
+}
+let search = (e)=>{
+    let query = document.getElementById("search_input").value
+    if(e.key == "Enter"){
+        localStorage.setItem("newsdata",query);
+        window.location.href="search.html"
+
+    }
+}
+
+// search()
+document.getElementById("search_input").addEventListener("keydown",search)
+</script>
